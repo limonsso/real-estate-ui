@@ -1,0 +1,26 @@
+<div class="search-container" fxLayout="column" fxLayoutGap="15px">
+  <mat-card>
+    <mat-card-title>Critère de Recherche</mat-card-title>
+    <mat-card-content fxLayout="row" fxLayoutAlign="space-between center" >
+      <div fxFlex="40">
+        <label>
+          Rechercher par villes:
+        </label>
+        <ng-select (change)="selectLocalities($event)" [(ngModel)]="localitySelected" [multiple]="true" [closeOnSelect]="false">
+          <ng-option *ngFor="let locality of localities" [value]="locality">{{locality}}</ng-option>
+        </ng-select>
+      </div>
+      <div fxLayout="row" fxLayoutAlign=" end"  fxFlex="10">
+        <button mat-raised-button color="primary" (click)="search()">rechercher</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <div fxLayout="column" fxLayoutGap="10px">
+    <app-properties-list></app-properties-list>
+    <mat-paginator [length]="totalPages*pageSize"
+                   [pageSize]="pageSize"
+                   (page)="pageEvent = $event; onPaginateChange($event)"
+    >
+    </mat-paginator>
+  </div>
+</div>

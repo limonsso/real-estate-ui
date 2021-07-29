@@ -1,0 +1,29 @@
+<div class="property-details" fxLayout="column" *ngIf="propertyDetails">
+  <div class="property-tagline" fxLayout="row" fxLayoutAlign="center none">
+    <div class="property-summary-desc" fxFlex="90" fxLayout="row">
+      <div fxLayout="column" fxFlex="70">
+        <span class="property-title">{{propertyDetails.type}} à vendre</span>
+        <span class="property-address">
+        {{propertyDetails.street}}, {{propertyDetails.city}}
+      </span>
+      </div>
+      <div fxFlex>
+        <span class="property-price">{{propertyDetails.price}} $</span>
+      </div>
+    </div>
+  </div>
+  <div class="property-images" fxLayout="row" fxLayoutAlign="center none">
+    <div class="basic-container" fxFlex="90">
+      <gallery [items]="imgItems" loadingStrategy="lazy"></gallery>
+    </div>
+  </div>
+</div>
+
+
+<!-- create a template to use the imageviewer -->
+
+<!--<ng-template #itemImgTemplate let-index="index" let-type="type" let-data="data" let-currIndex="currIndex">
+  <ng-container *ngIf="type === 'imageViewer' && index === currIndex">
+    <ngx-imageviewer [src]="data.src"></ngx-imageviewer>
+  </ng-container>
+</ng-template>-->

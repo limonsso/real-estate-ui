@@ -1,0 +1,15 @@
+<mat-card class="property-card" (click)="redirectToDetail(property.id)">
+  <div class="container-img">
+    <img mat-card-image src="{{property.imgThumbnail}}" alt="Photo of a Shiba Inu">
+    <div class="top-right">{{property.company}}</div>
+  </div>
+  <mat-card-content>
+    <p>
+      <span class="property-type">{{property.type}} à vendre</span><br/>
+      <span class="property-price">{{property.price}} $</span><br/>
+      <span class="property-address">{{property.street}}<br/>
+      {{property.city}}</span><br/>
+<!--      <span>{{property.}}</span>-->
+    </p>
+  </mat-card-content>
+</mat-card>

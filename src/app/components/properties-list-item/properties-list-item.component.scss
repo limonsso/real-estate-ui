@@ -1,0 +1,27 @@
+.property-card{
+  height: 290px;
+  margin-bottom: 15px;
+  img{
+    height: auto;
+  }
+  mat-card-content{
+    font-size: small;
+  }
+}
+.property-card:hover{
+  cursor: pointer;
+  box-shadow: 0 0 15px rgb(91 182 189 / 92%);
+}
+
+.container-img{
+  /* Top right text */
+  .top-right {
+    font-size: small;
+    background-color: #1d1c1c;
+    color: azure;
+    padding: 5px;
+    position: absolute;
+    top: 1px;
+    right: 0px;
+  }
+}
