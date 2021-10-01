@@ -1,4 +1,46 @@
-<mat-card class="property-card" (click)="redirectToDetail(property.id)">
+<div class="property-listing" fxLayout.gt-sm="row wrap" fxLayout.lt-sm="column">
+
+  <div class="listing-img-wrapper" (click)="redirectToDetail(property.id)">
+    <a>
+      <img src="{{property.imgThumbnail}}">
+      <div class="img-text prt-types">{{property.company}}</div>
+      <div *ngIf="property.vendue" class="img-text is-sold" fxLayout="row" fxLayoutAlign="center center">
+        <span>Vendue</span>
+      </div>
+    </a>
+  </div>
+
+  <div class="listing-content" fxLayout="column" fxFlex.gt-sm="60" fxLayoutAlign="space-between">
+
+    <div class="listing-detail-wrapper-box">
+      <div class="listing-detail-wrapper" fxLayout="row wrap" fxLayoutAlign="space-between center">
+        <div class="listing-short-detail" fxLayout="column" fxFlex>
+          <h4 class="listing-name"><a href=""></a>{{property.type}} à vendre</h4>
+        </div>
+        <div class="list-price">
+          <h6 class="listing-card-info-price">{{property.price |
+            currency:'CAD':'symbol'}}</h6>
+        </div>
+      </div>
+    </div>
+    <app-property-unites [property_unites]="property.unites"></app-property-unites>
+    <div fxFlex="60" class="listing-footer-wrapper" fxLayout="row" fxLayoutAlign="space-between center">
+      <div class="listing-locate">
+        <span class="listing-location" fxLayout="row" fxFlexAlign="center center"><mat-icon>place</mat-icon>
+          {{property.street}}<br/>
+          {{property.city}}</span>
+      </div>
+      <div class="listing-detail-btn">
+        <a class="more-btn" (click)="redirectToDetail(property.id)">Voire</a>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+<!--<mat-card class="property-card" (click)="redirectToDetail(property.id)">
   <div class="container-img">
     <img mat-card-image src="{{property.imgThumbnail}}" alt="Photo of a Shiba Inu">
     <div class="top-right">{{property.company}}</div>
@@ -6,10 +48,10 @@
   <mat-card-content>
     <p>
       <span class="property-type">{{property.type}} à vendre</span><br/>
-      <span class="property-price">{{property.price}} $</span><br/>
+      <span class="property-price">{{property.price}}</span><br/>
       <span class="property-address">{{property.street}}<br/>
       {{property.city}}</span><br/>
-<!--      <span>{{property.}}</span>-->
+&lt;!&ndash;      <span>{{property.}}</span>&ndash;&gt;
     </p>
   </mat-card-content>
-</mat-card>
+</mat-card>-->

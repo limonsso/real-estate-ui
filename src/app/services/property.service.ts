@@ -16,22 +16,27 @@ export class PropertyService {
   }
 
   getLocalities(): Observable<string[]> {
-    const url = this.apiBaseUrl + "/localities"
+    const url = this.apiBaseUrl + "/property/getalllocalities"
     return this.http.get<string[]>(url);
   }
 
   getPropertiesListByLocalitiesWithPaging(localities: string[], pageNumber: number = 1, pageSize: number = 10): Observable<PropertiesSummaries> {
-    const url = this.apiBaseUrl + `/propertiesbylocalities/${pageNumber}`
+    const url = this.apiBaseUrl + `/property/findpropertiesbylocalitieswithpaging/${pageNumber}`
     return this.http.post<PropertiesSummaries>(url, {localities: localities, pageSize: pageSize});
   }
 
   getPropertiesListByLocalities(localities: string[]): Observable<PropertySummary[]> {
-    const url = this.apiBaseUrl + `/propertiesbylocalities`
+    const url = this.apiBaseUrl + `/property/findpropertiesbylocalities`
     return this.http.post<PropertySummary[]>(url,localities);
   }
 
   getPropertyDetails(id: number): Observable<PropertyDetails> {
-    const url = this.apiBaseUrl + `/property/${id}`
+    const url = this.apiBaseUrl + `/property/getpropertydetails/${id}`
     return this.http.get<PropertyDetails>(url);
+  }
+
+  getPropertiesDetails(ids: string[]): Observable<PropertyDetails[]> {
+    const url = this.apiBaseUrl + `/property/getpropertiesdetails`
+    return this.http.post<PropertyDetails[]>(url,ids);
   }
 }

@@ -1,14 +1,23 @@
-   .app-container{
-  //background-color: #0d1117;
+
+.app-container {
+  background-color: #ebf7ff !important;
+  min-height: 100%;
   //color: azure;
-  height: 100vh;
-  .app-header{
+
+  .app-header {
     //color: azure;
     //background-color: #5f71d7;
     margin-bottom: 25px;
   }
-  .app-content{
-    margin-left: 5%;
-    margin-right: 5%;
-  }
+
+  //.app-content{
+  //  margin-left: 5%;
+  //  margin-right: 5%;
+  //  @media screen and (max-width: 600px){
+  //    margin-left: 2%;
+  //    margin-right: 2%
+  //  }
+  //}
 }
+
+

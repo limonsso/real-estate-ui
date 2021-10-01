@@ -1,0 +1,104 @@
+
+.input-with-icon, .form-control {
+  background: #f6f8fd;
+  box-shadow: none;
+  border: 1px solid #edf0f9;
+  border-radius: 5px;
+  height: 60px;
+  overflow: hidden;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  display: block;
+}
+.form-control{
+  padding-left: 45px;
+}
+.input-with-icon{
+  position: relative;
+  width: 100%;
+}
+
+.input-with-icon .form-control {
+  border: none;
+}
+
+input:focus{
+  outline: none;
+}
+
+.input-with-icon mat-icon {
+  font-size: 23px;
+  color: #a2a9bf;
+}
+
+input, button, .input-with-icon {
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.widget{
+  background-color: #fff;
+  color: #707070;
+  border-radius: 8px;
+  border: 1px solid #ebeef5;
+  overflow: hidden;
+  transition: 0.50s;
+}
+
+.widget-block-header{
+  position: relative;
+  display: flex;
+  background: #0fca98;
+  padding: 1.5rem 1.4rem;
+  color: #ffffff;
+  align-items: center;
+}
+
+.widget-block-header > h3{
+  line-height: 26px;
+  font-size: 21px;
+  color: #ffffff !important;
+}
+
+.widget-block-content{
+  padding: 1.5rem 1.4rem;
+}
+
+.btn{
+  border-radius: 0.4rem;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 12px 25px;
+  cursor: pointer;
+  border: 1px solid;
+}
+.btn-black {
+  background: #263547;
+  color: #ffffff;
+  border: 1px solid #263547;
+}
+
+.btn-md {
+  padding: 1em 1.5em;
+  font-size: 1em;
+}
+
+.result{
+  font-weight: 700;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}

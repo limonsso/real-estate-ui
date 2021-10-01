@@ -1,5 +1,4 @@
 import {
-  UpdateStore,
   LoadLocalities
 } from '../actions/localities-store.actions';
 import {Action, createReducer, on} from "@ngrx/store";
@@ -12,8 +11,6 @@ export const initialState: LocalitiesState = {
   list: [],
 };
 const localitiesReducer = createReducer(initialState,
-  on(UpdateStore,
-    (state, action) => ({...state, list: [...action.payload] })),
   on(LoadLocalities,
     (state, action) => ({...state, list: [...action.payload]}))
 )

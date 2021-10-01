@@ -1,29 +1,84 @@
-<div class="property-details" fxLayout="column" *ngIf="propertyDetails">
-  <div class="property-tagline" fxLayout="row" fxLayoutAlign="center none">
-    <div class="property-summary-desc" fxFlex="90" fxLayout="row">
-      <div fxLayout="column" fxFlex="70">
-        <span class="property-title">{{propertyDetails.type}} à vendre</span>
-        <span class="property-address">
-        {{propertyDetails.street}}, {{propertyDetails.city}}
-      </span>
-      </div>
-      <div fxFlex>
-        <span class="property-price">{{propertyDetails.price}} $</span>
+<div *ngIf="propertyDetails" class="property-details" fxLayout="column" fxLayoutGap="30px">
+  <div class="property-imgs" fxFlex="50">
+    <div class="property-images" fxLayout="row" fxLayoutAlign="center none">
+      <div class="basic-container" fxFlex="80">
+        <gallery [imageSize]="'contain'" [items]="imgItems" [thumbPosition]="'right'" loadingStrategy="lazy"></gallery>
       </div>
     </div>
   </div>
-  <div class="property-images" fxLayout="row" fxLayoutAlign="center none">
-    <div class="basic-container" fxFlex="90">
-      <gallery [items]="imgItems" loadingStrategy="lazy"></gallery>
+  <div fxLayout="row" fxLayoutAlign="center">
+    <div fxFlex="80" fxLayout="row" fxLayoutGap="15px">
+      <div fxFlex="62" fxLayout="column" fxLayoutGap="15px">
+        <div class="prt-block prt-details" fxLayout="column">
+          <div class="prt-details-title-desc" fxLayout="row" fxLayoutAlign="space-between">
+            <h3 class="prt-block-title">{{propertyDetails.type}}
+              <span *ngIf="propertyDetails.vendue === false; else vendu">à vendre</span>
+              <ng-template #vendu>
+                <span class="prt-vendue">VENDU</span>
+              </ng-template>
+            </h3>
+            <h3 class="prt-price-fix">{{propertyDetails.price |
+              currency:'CAD':'symbol'}}</h3>
+          </div>
+          <span><mat-icon>place</mat-icon>
+            {{propertyDetails.street}}, {{propertyDetails.city}}</span>
+        </div>
+        <div class="prt-block">
+          <h4 class="prt-block-title">Description</h4>
+          <p>{{propertyDetails.description}}</p>
+        </div>
+        <div class="prt-block">
+          <h4 class="prt-block-title">Détails et caractéristiques</h4>
+          <div fxLayout="column">
+            <div fxLayout="row" fxLayoutGap="25px">
+              <div class="prt-block-item">
+                <strong>Année : </strong><span>{{propertyDetails.annee}}</span>
+              </div>
+              <div class="prt-block-item">
+                <strong>Revenu brute potentiel : </strong><span>{{propertyDetails.revenusAnnuelBruts | currency:'CAD':'symbol'}}</span>
+              </div>
+              <div class="prt-block-item">
+                <strong>Superficie : </strong><span>{{propertyDetails.superficie}}</span>
+              </div>
+            </div>
+            <div fxLayout="row" fxLayoutGap="25px">
+              <div class="prt-block-item">
+                <strong>Unités : </strong> <span *ngFor="let unite of propertyDetails.unites; let last = last">
+                {{unite.nombreUnite}} x {{unite.type}}<span *ngIf="!last">,</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div fxFlex fxLayout="column" fxLayoutGap="15px">
+        <div class="prt-block" fxLayout="row" fxLayoutGap="15px">
+          <a #favoriteBtn class="btn btn-green" (click)="addOrRemoveToFavorites($event)"  fxLayout="row" fxFlexAlign="center center">
+            <ng-template [ngIf]="isFavoriteProperty() | async" [ngIfElse]="isNotFavorite">
+              <mat-icon class="material-icons-outlined favorite-icon">
+                favorite
+              </mat-icon>
+            </ng-template>
+            <ng-template #isNotFavorite>
+              <mat-icon class="material-icons-outlined favorite-icon">
+                favorite_outline
+              </mat-icon>
+            </ng-template>
+            <span> Sauvegarder</span>
+          </a>
+          <a class="btn btn-orange" href="{{propertyDetails.link}}" fxLayout="row" fxFlexAlign="center center">
+            <mat-icon class="material-icons-outlined">
+              shortcut
+            </mat-icon>
+            <span>Fiche détaillé</span>
+          </a>
+        </div>
+
+          <app-property-mortgage-calculator [hypotheque]="this.propertyDetails.price"></app-property-mortgage-calculator>
+
+      </div>
     </div>
   </div>
+
 </div>
 
-
-<!-- create a template to use the imageviewer -->
-
-<!--<ng-template #itemImgTemplate let-index="index" let-type="type" let-data="data" let-currIndex="currIndex">
-  <ng-container *ngIf="type === 'imageViewer' && index === currIndex">
-    <ngx-imageviewer [src]="data.src"></ngx-imageviewer>
-  </ng-container>
-</ng-template>-->
