@@ -20,14 +20,19 @@ export class PropertyService {
     return this.http.get<string[]>(url);
   }
 
-  getPropertiesListByLocalitiesWithPaging(localities: string[], pageNumber: number = 1, pageSize: number = 10): Observable<PropertiesSummaries> {
+  getPropertiesListByLocalitiesWithPaging(localities: string[], pageNumber: number = 1, pageSize: number = 10, companyName: string = '', onSaleOnly = false): Observable<PropertiesSummaries> {
     const url = this.apiBaseUrl + `/property/findpropertiesbylocalitieswithpaging/${pageNumber}`
-    return this.http.post<PropertiesSummaries>(url, {localities: localities, pageSize: pageSize});
+    return this.http.post<PropertiesSummaries>(url, {
+      localities: localities,
+      pageSize: pageSize,
+      companyName: companyName,
+      onSaleOnly: onSaleOnly
+    });
   }
 
   getPropertiesListByLocalities(localities: string[]): Observable<PropertySummary[]> {
     const url = this.apiBaseUrl + `/property/findpropertiesbylocalities`
-    return this.http.post<PropertySummary[]>(url,localities);
+    return this.http.post<PropertySummary[]>(url, localities);
   }
 
   getPropertyDetails(id: number): Observable<PropertyDetails> {
@@ -37,6 +42,6 @@ export class PropertyService {
 
   getPropertiesDetails(ids: string[]): Observable<PropertyDetails[]> {
     const url = this.apiBaseUrl + `/property/getpropertiesdetails`
-    return this.http.post<PropertyDetails[]>(url,ids);
+    return this.http.post<PropertyDetails[]>(url, ids);
   }
 }

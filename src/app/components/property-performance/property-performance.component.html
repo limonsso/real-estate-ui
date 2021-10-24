@@ -1,0 +1,89 @@
+<div fxLayout="column">
+  <app-page-title [Title]="'Statistique de rendement'"
+                  [Sub_title]="''"></app-page-title>
+  <div *ngIf="propertyDetails" fxLayout="row" fxLayoutAlign="center" style="height: 100%">
+    <div class="block" fxFlex="90" fxLayout="row">
+      <div fxLayout="column" fxFlex="100" fxLayoutGap="15px">
+        <div fxLayout="row" fxLayoutGap="15px">
+          <div class="prt-img" fxFlex="25">
+            <img src="{{propertyDetails.images[0]}}">
+          </div>
+          <div fxLayout="column">
+            <h3 class="prt-title">{{propertyDetails.type}}
+              <span *ngIf="propertyDetails.vendue === false; else vendu">à vendre</span>
+              <ng-template #vendu>
+                <span class="prt-vendue">VENDU</span>
+              </ng-template>
+            </h3>
+            <span class="prt-price">{{propertyDetails.price |
+              currency:'CAD':'symbol'}}</span>
+            <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="5px">
+              <mat-icon>location_on_outlined</mat-icon>
+              <span>{{propertyDetails.street}}, {{propertyDetails.city}}</span>
+            </div>
+            <p class="prt-desc">{{propertyDetails.description}}</p>
+            <div fxLayout="row" fxLayoutGap="5px">
+              <span class="prt-block-item" *ngIf="propertyDetails.unites"><b>unitées : </b>
+                <span *ngFor="let unite of propertyDetails.unites; let last = last">
+                    {{unite.nombreUnite}} x {{unite.type}}<span *ngIf="!last">,</span>
+                </span>
+              </span>
+              <span class="prt-block-item"><b>rev. pot. bruts : </b>{{propertyDetails.revenusAnnuelBruts |
+                currency:'CAD':'symbol'}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="propertyDetails" fxLayout="row" fxLayoutAlign="center" style="height: 100%">
+    <div fxFlex="90" fxLayout="row">
+      <div fxLayout="row" fxLayoutGap="15px" fxFlex="100">
+        <div class="prt-block" fxLayout="column" fxFlex="75">
+          <div fxLayout="column" fxLayoutGap="20px">
+            <div fxLayout="row" fxLayoutGap="40px" fxLayoutAlign=" center">
+              <div fxLayout="column" fxFlex="30" fxLayoutGap="5px">
+                <label for="libele_depense">Dépense</label>
+                <input id="libele_depense" type="text" class="input-control simple" [(ngModel)]="libele_depense">
+              </div>
+              <div fxLayout="column" fxFlex="30" fxLayoutGap="5px">
+                <label for="montant_depense">Montant (par an)</label>
+                <input id="montant_depense" type="number" class="input-control simple" [(ngModel)]="montant_depense">
+              </div>
+              <button class="add-btn" (click)="addDepense()">
+                Ajouter une dépense
+              </button>
+            </div>
+            <div fxLayout="column" fxLayoutGap="15px">
+              <div fxLayout="row" fxLayoutAlign="space-between end" *ngFor="let depense of depenses">
+                <span>{{depense.libele}}</span>
+                <div class="line-btw" fxFlex></div>
+                <span>{{depense.montant | currency:'CAD':'symbol'}}</span>
+                <button *ngIf="depense.can_be_delete" class="remove-btn"
+                        fxLayout="row" fxLayoutAlign="center center" (click)="remove_depense(depense)">
+                  <mat-icon>clear</mat-icon>
+                </button>
+              </div>
+              <div fxLayout="row" fxLayoutAlign="space-between end">
+                <strong>Total des depenses</strong>
+                <div class="line-btw" fxFlex></div>
+                <strong>{{total_depenses | currency:'CAD':'symbol'}}</strong>
+              </div>
+            </div>
+
+            <!--            <div class="widget-block-item" fxLayout="row" fxLayoutAlign="space-between center">
+                          <span><b>M</b>ultiplicateur de <b>R</b>evenue <b>B</b>rut</span> <strong>10 $</strong>
+                        </div>
+                        <div class="widget-block-item" fxLayout="row" fxLayoutAlign="space-between center">
+                          <span><b>M</b>ultiplicateur de <b>R</b>evenue <b>N</b>et</span> <strong>10 $</strong>
+                        </div>-->
+            <app-property-ratio-performance [Price]="propertyDetails.price" [RevenuPotentielAnnuel]="propertyDetails.revenusAnnuelBruts"></app-property-ratio-performance>
+
+            <div #map [style.width]="width" [style.height]="height"></div>
+          </div>
+        </div>
+        <app-property-mortgage-calculator [Price]="propertyDetails.price"></app-property-mortgage-calculator>
+      </div>
+    </div>
+  </div>
+</div>

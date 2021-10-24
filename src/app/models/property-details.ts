@@ -16,7 +16,9 @@ export class PropertyDetails {
     public revenusAnnuelBruts: number,
     public vendue: boolean,
     public taxesScolaires:number,
-    public taxesMunicipale:number
+    public taxesMunicipale:number,
+    public latitude:number,
+    public longitude:number
   ) {
 
   }

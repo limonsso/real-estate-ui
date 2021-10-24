@@ -1,0 +1,28 @@
+<div fxLayout="row" fxLayoutGap="15px">
+  <div class="prty-ratio-performance-item" style="display: block;" fxFlex="70" fxLayout="column" fxLayoutGap="15px">
+    <ng-select [(ngModel)]="selectedFrequency" [clearable]="false" [searchable]="false" (change)="selectChangeFrequency()">
+      <ng-option *ngFor="let key of frequencies.descrs; let i = index" [value]="frequencies.values[i]">{{key}}</ng-option>
+    </ng-select>
+    <canvas baseChart
+            [data]="pieChartData"
+            [labels]="pieChartLabels"
+            [chartType]="pieChartType"
+            [options]="pieChartOptions"
+            [plugins]="pieChartPlugins"
+            [legend]="pieChartLegend"
+            [colors]="chartColors">
+    </canvas>
+  </div>
+  <div  fxLayout="column" fxLayoutGap="15px">
+    <div class="prty-ratio-performance-item" fxLayout="column">
+      <div fxLayout="row" fxLayoutGap="5px">
+        <span><b>M</b>ultiplicateur de <b>R</b>evenu <b>N</b>et</span><mat-icon class="help-icon"
+        [matTooltip]="'Cet indicateur représente le ratio entre le prix de vente et le revenu net effectif après avoir normalisé les dépenses selon les barèmes de la SCHL. Par exemple, un MRN de 20 implique que l\'immeuble va transiger à 20 fois ses revenus nets'"
+        [matTooltipPosition]="'above'"
+      >help_outline</mat-icon></div>
+      <span><h1>{{MRN_date | async}}</h1></span>
+    </div>
+  </div>
+</div>
+
+

@@ -1,0 +1,14 @@
+<div fxLayout="column">
+  <app-page-title [Title]="'Mes propriétées favories'"
+                  [Sub_title]="'Mes propriétées favories et indice de rendement'"></app-page-title>
+  <div fxLayout="row" fxLayoutAlign="center">
+    <div class="block" fxFlex="90" fxLayout="row">
+      <div fxLayout="column" fxFlex="100">
+        <app-favorites-properties-item *ngFor="let property of propertiesDetails"
+                                       [propertyDetails]="property" >
+        </app-favorites-properties-item>
+      </div>
+    </div>
+  </div>
+
+</div>

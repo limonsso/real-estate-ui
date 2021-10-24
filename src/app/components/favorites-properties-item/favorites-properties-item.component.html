@@ -1,0 +1,45 @@
+<div class="prty-block" fxLayout="row" fxLayoutAlign="space-between">
+  <div fxLayout="row" fxLayoutGap="15px">
+    <div class="prty-thumb-img" fxFlex="20" (click)="redirectToDetail()">
+      <img src="{{propertyDetails.images[0]}}">
+    </div>
+    <div class="prty-desc" fxLayout="row" fxLayoutAlign="center center">
+      <div fxLayout="column">
+        <h4>
+          <a *ngIf="propertyDetails.vendue === false; else vendu">{{propertyDetails.type}} à vendre</a>
+          <ng-template #vendu>
+            <a class="prt-vendue">VENDU</a>
+          </ng-template>
+        </h4>
+        <span class="prty-price">{{propertyDetails.price |
+          currency:'CAD':'symbol'}}</span>
+        <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="5px">
+          <mat-icon>location_on_outlined</mat-icon>
+          <span>{{propertyDetails.street}}, {{propertyDetails.city}}</span>
+        </div>
+        <div fxLayout="row" fxLayoutGap="5px">
+          <span class="prty-block-item"><b>hypothèque : </b>{{versement | async |
+            currency:'CAD':'symbol'}} / mois</span>
+          <span class="prty-block-item" *ngIf="propertyDetails.unites"><b>unitées : </b>
+            <span *ngFor="let unite of propertyDetails.unites; let last = last">
+                {{unite.nombreUnite}} x {{unite.type}}<span *ngIf="!last">,</span>
+            </span>
+          </span>
+          <span class="prty-block-item"><b>rev. pot. bruts : </b>{{propertyDetails.revenusAnnuelBruts |
+            currency:'CAD':'symbol'}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="prty-actions" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="5px">
+    <mat-icon (click)="redirectToCalulator()" class="prty-action primary">
+      calculate
+    </mat-icon>
+    <mat-icon (click)="redirectToDetail()" class="prty-action view">
+      visibility
+    </mat-icon>
+    <mat-icon (click)="removeToFavorites()" class="prty-action delete">
+      delete_outline
+    </mat-icon>
+  </div>
+</div>

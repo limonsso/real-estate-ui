@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {AfterViewInit, Component, HostBinding, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {PropertyService} from "../../services/property.service";
 import {BroadcastService} from "../../services/broadcast.service";
 import {range} from "lodash";
@@ -13,7 +13,7 @@ import {LocalStorageService} from "angular-web-storage";
 @Component({
   selector: 'app-search-properties',
   templateUrl: './search-properties.component.html',
-  styleUrls: ['./search-properties.component.css'],
+  styleUrls: ['./search-properties.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class SearchPropertiesComponent implements OnInit, AfterViewInit {
@@ -77,6 +77,6 @@ export class SearchPropertiesComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-
   }
+
 }

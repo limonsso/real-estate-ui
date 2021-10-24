@@ -13,9 +13,9 @@ export class MortgageCalculatorService {
 
   constructor(private readonly http: HttpClient) { }
 
-  calculate_montant_versement(hypoteque:number,nbr_annee:number,interet:number): Observable<number>{
+  calculate_montant_versement(montant_pret:number,nbr_annee:number,interet:number,nbr_versement_annuel:number): Observable<number>{
     var url = this.apiBaseUrl+'/mortgage/GetMontantMensuel'
-    return this.http.post<number>(url, {hypoteque: hypoteque, nbr_annee: nbr_annee,interet_annuel:interet})
+    return this.http.post<number>(url, {montant_pret: montant_pret, nbr_annee: nbr_annee,interet_annuel:interet,nbr_versement_annuel:nbr_versement_annuel})
       .pipe(map(montant => {
       return montant;
     }));
@@ -30,7 +30,7 @@ export class MortgageCalculatorService {
   }
 
   calculate_montant_rno(revenu:number,depenses:number): Observable<number>{
-    var url = this.apiBaseUrl+'/mortgage/GetMRN'
+    var url = this.apiBaseUrl+'/mortgage/GetRNO'
     return this.http.post<number>(url, {revenu_brut: revenu,depenses_op: depenses})
       .pipe(map(montant => {
         return montant;

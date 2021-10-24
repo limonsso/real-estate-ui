@@ -4,7 +4,6 @@
   box-shadow: none;
   border: 1px solid #edf0f9;
   border-radius: 5px;
-  height: 60px;
   overflow: hidden;
   font-weight: 400;
   line-height: 1.5;
@@ -12,12 +11,17 @@
   transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
   display: block;
 }
+
+.disabled, .disabled .form-control{
+ background: rgb(230, 234, 246) !important;
+}
 .form-control{
-  padding-left: 45px;
+  padding-left: 15px;
 }
 .input-with-icon{
   position: relative;
   width: 100%;
+  padding: .5rem .75rem;
 }
 
 .input-with-icon .form-control {

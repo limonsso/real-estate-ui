@@ -1,0 +1,11 @@
+<div class="listing-features-wrapper">
+  <div fxLayout="row" *ngIf="property_unites" fxLayoutGap="10px">
+    <div class="list-unite" *ngFor="let uninte of property_unites">
+      <div class="list-unite-type">
+        <span>{{uninte.type}}</span></div>
+      <div class="list-unite-nbr">
+        <span>{{uninte.nombreUnite}}</span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -2,7 +2,9 @@
 @import "~@ng-select/ng-select/themes/default.theme.css";
 
 @import "assets/fonts/jost-cufonfonts-webfont/style.css";
-
+html {
+  height: 100%;
+}
 @font-face {
   font-family: Muli-Regular;
   src: url('./assets/fonts/muli/Muli-Regular.ttf');
@@ -22,3 +24,5 @@ body,.mat-body, .mat-body-1, .mat-typography {
   overflow-x: hidden !important;
   font-weight: 400 !important;
 }
+
+
