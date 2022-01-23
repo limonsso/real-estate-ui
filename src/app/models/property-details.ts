@@ -15,10 +15,11 @@ export class PropertyDetails {
     public price: number,
     public revenusAnnuelBruts: number,
     public vendue: boolean,
-    public taxesScolaires:number,
-    public taxesMunicipale:number,
-    public latitude:number,
-    public longitude:number
+    public taxesScolaires: number,
+    public taxesMunicipale: number,
+    public latitude: number,
+    public longitude: number,
+    public nearProperties: PropertyDetails[]
   ) {
 
   }

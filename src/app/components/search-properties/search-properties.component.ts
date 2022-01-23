@@ -1,13 +1,11 @@
-import {AfterViewInit, Component, HostBinding, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
-import {PropertyService} from "../../services/property.service";
-import {BroadcastService} from "../../services/broadcast.service";
-import {range} from "lodash";
-import {PageEvent} from "@angular/material/paginator";
-import {Store} from "@ngrx/store";
-import {UserService} from "../../services/user.service";
-import {AppState} from "../../app-state";
-import {Observable, of} from "rxjs";
-import {LocalStorageService} from "angular-web-storage";
+import { AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { PropertyService } from "../../services/property.service";
+import { BroadcastService } from "../../services/broadcast.service";
+import { range } from "lodash";
+import { PageEvent } from "@angular/material/paginator";
+import { UserService } from "../../services/user.service";
+import { Observable, of } from "rxjs";
+import { LocalStorageService } from "angular-web-storage";
 
 
 @Component({
@@ -21,16 +19,16 @@ export class SearchPropertiesComponent implements OnInit, AfterViewInit {
   @ViewChild('paginator') paginator;
   public localities$ = new Observable<string[]>();
   public localitySelected: string[] = [];
-  public totalPages: number = 1;
-  public pageSize: number = 12;
+  public totalPages: number;
+  public pageSize: number = 8;
   public pageSizeOptions: number[] = [];
   public countProperties: number = 0;
   pageEvent!: PageEvent;
 
   constructor(private readonly propertyService: PropertyService,
-              private readonly broacastService: BroadcastService,
-              private readonly userService: UserService,
-              private readonly localStorage: LocalStorageService) {
+    private readonly broacastService: BroadcastService,
+    private readonly userService: UserService,
+    private readonly localStorage: LocalStorageService) {
   }
 
   ngOnInit(): void {
@@ -41,10 +39,9 @@ export class SearchPropertiesComponent implements OnInit, AfterViewInit {
           console.log(user);
           this.localitySelected = user.localitiesSelectedLastSearch;
           var search_localStorage = this.localStorage.get("search");
-          if(search_localStorage){
+          if (search_localStorage) {
             var page = search_localStorage.page
             this.search(page);
-            this.paginator.pageIndex = page-1;
           }
         }
       })
@@ -54,21 +51,12 @@ export class SearchPropertiesComponent implements OnInit, AfterViewInit {
   search(paging: number = 1) {
     this.propertyService.getPropertiesListByLocalitiesWithPaging(this.localitySelected, paging, this.pageSize)
       .subscribe((data) => {
-        this.localStorage.set("search",{ page:paging})
+        this.localStorage.set("search", { page: paging })
         this.broacastService.broadcast('properties-summary', data.properties)
         this.totalPages = data.totalPage;
+        this.broacastService.broadcast('properties-list-pagination',
+          { totalPage: data.totalPage, localitySelected: this.localitySelected })
         this.pageSizeOptions = range(1, data.totalPage, this.pageSize)
-      });
-  }
-
-  onPaginateChange($event: PageEvent) {
-    var paging= $event.pageIndex + 1;
-    this.propertyService.getPropertiesListByLocalitiesWithPaging(this.localitySelected, paging, this.pageSize)
-      .subscribe((data) => {
-        console.log(data);
-        this.localStorage.set("search",{ page:paging})
-        this.broacastService.broadcast('properties-summary', data.properties)
-        this.totalPages = data.totalPage;
       });
   }
 

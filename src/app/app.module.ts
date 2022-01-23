@@ -40,10 +40,11 @@ import {PropertyUnitesComponent} from './components/property-unites/property-uni
 import {PropertyPerformanceComponent} from './components/property-performance/property-performance.component';
 import {PropertyRatioPerformanceComponent} from './components/property-performance/property-ratio-performance/property-ratio-performance.component';
 import {CurrencyMaskConfig, CurrencyMaskModule, CURRENCY_MASK_CONFIG} from "ng2-currency-mask";
-
+import {PropertiesListPaginationComponent} from './components/properties-list-pagination/properties-list-pagination.component'
 registerLocaleData(localeFr, 'fr-CA');
 import {ChartsModule} from 'ng2-charts';
 import {MatTooltipModule} from "@angular/material/tooltip";
+import { PropertyMapComponent } from './components/property-map/property-map.component';
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   align: "left",
@@ -71,6 +72,8 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     PropertyUnitesComponent,
     PropertyPerformanceComponent,
     PropertyRatioPerformanceComponent,
+    PropertyMapComponent,
+    PropertiesListPaginationComponent,
   ],
     imports: [
         BrowserModule,

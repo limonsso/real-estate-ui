@@ -1,10 +1,10 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {GlobalConstants} from "../common/global-constants";
-import {PropertySummary} from "../models/property-summary";
-import {Observable} from "rxjs";
-import {PropertiesSummaries} from "../models/properties-summaries";
-import {PropertyDetails} from "../models/property-details";
+import { Injectable } from '@angular/core';
+import { HttpClient } from "@angular/common/http";
+import { GlobalConstants } from "../common/global-constants";
+import { PropertySummary } from "../models/property-summary";
+import { Observable } from "rxjs";
+import { PropertiesSummaries } from "../models/properties-summaries";
+import { PropertyDetails } from "../models/property-details";
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +20,7 @@ export class PropertyService {
     return this.http.get<string[]>(url);
   }
 
-  getPropertiesListByLocalitiesWithPaging(localities: string[], pageNumber: number = 1, pageSize: number = 10, companyName: string = '', onSaleOnly = false): Observable<PropertiesSummaries> {
+  getPropertiesListByLocalitiesWithPaging(localities: string[], pageNumber: number = 1, pageSize: number = 10, companyName: string = '', onSaleOnly = true): Observable<PropertiesSummaries> {
     const url = this.apiBaseUrl + `/property/findpropertiesbylocalitieswithpaging/${pageNumber}`
     return this.http.post<PropertiesSummaries>(url, {
       localities: localities,

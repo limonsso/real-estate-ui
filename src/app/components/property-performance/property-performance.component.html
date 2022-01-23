@@ -1,6 +1,5 @@
 <div fxLayout="column">
-  <app-page-title [Title]="'Statistique de rendement'"
-                  [Sub_title]="''"></app-page-title>
+  <app-page-title [Title]="'Statistique de rendement'" [Sub_title]="''"></app-page-title>
   <div *ngIf="propertyDetails" fxLayout="row" fxLayoutAlign="center" style="height: 100%">
     <div class="block" fxFlex="90" fxLayout="row">
       <div fxLayout="column" fxFlex="100" fxLayoutGap="15px">
@@ -8,7 +7,7 @@
           <div class="prt-img" fxFlex="25">
             <img src="{{propertyDetails.images[0]}}">
           </div>
-          <div fxLayout="column">
+          <div fxLayout="column" fxFlex>
             <h3 class="prt-title">{{propertyDetails.type}}
               <span *ngIf="propertyDetails.vendue === false; else vendu">à vendre</span>
               <ng-template #vendu>
@@ -25,7 +24,7 @@
             <div fxLayout="row" fxLayoutGap="5px">
               <span class="prt-block-item" *ngIf="propertyDetails.unites"><b>unitées : </b>
                 <span *ngFor="let unite of propertyDetails.unites; let last = last">
-                    {{unite.nombreUnite}} x {{unite.type}}<span *ngIf="!last">,</span>
+                  {{unite.nombreUnite}} x {{unite.type}}<span *ngIf="!last">,</span>
                 </span>
               </span>
               <span class="prt-block-item"><b>rev. pot. bruts : </b>{{propertyDetails.revenusAnnuelBruts |
@@ -59,8 +58,8 @@
                 <span>{{depense.libele}}</span>
                 <div class="line-btw" fxFlex></div>
                 <span>{{depense.montant | currency:'CAD':'symbol'}}</span>
-                <button *ngIf="depense.can_be_delete" class="remove-btn"
-                        fxLayout="row" fxLayoutAlign="center center" (click)="remove_depense(depense)">
+                <button *ngIf="depense.can_be_delete" class="remove-btn" fxLayout="row" fxLayoutAlign="center center"
+                  (click)="removeDepense (depense)">
                   <mat-icon>clear</mat-icon>
                 </button>
               </div>
@@ -77,9 +76,73 @@
                         <div class="widget-block-item" fxLayout="row" fxLayoutAlign="space-between center">
                           <span><b>M</b>ultiplicateur de <b>R</b>evenue <b>N</b>et</span> <strong>10 $</strong>
                         </div>-->
-            <app-property-ratio-performance [Price]="propertyDetails.price" [RevenuPotentielAnnuel]="propertyDetails.revenusAnnuelBruts"></app-property-ratio-performance>
+            <app-property-ratio-performance [Price]="propertyDetails.price"
+              [RevenuPotentielAnnuel]="propertyDetails.revenusAnnuelBruts"></app-property-ratio-performance>
 
-            <div #map [style.width]="width" [style.height]="height"></div>
+            <div>
+              <style>
+                .ico {
+                  color: rgb(24, 24, 24);
+                  font-size: 40px;
+                  cursor: pointer;
+                }
+
+                .tooltip-custom {
+                  font-size: small;
+                  max-width: 340px;
+                  display: flex;
+                  position: absolute;
+                  z-index: 98;
+                  margin-top: -135px;
+                  margin-left: -160px;
+                  background-color: rgba(255, 255, 255);
+                  border-radius: 8px;
+                  padding: 5px;
+                  box-shadow: 0 2px 7px 1px rgb(0 0 0 / 10%);
+                  box-sizing: border-box;
+                  /*opacity: 0;*/
+                  transition: .6s ease opacity;
+                }
+
+                .tooltip-info {
+                  display: flex;
+                  flex-direction: column;
+                }
+
+                .tooltip-custom img {
+                  max-width: 55%;
+                  flex: 1 1 100%;
+                  margin-right: 10px;
+                }
+
+                .tooltip-custom:before {
+                  content: "";
+                  position: absolute;
+                  /* position tooltip correctly */
+                  left: 50%;
+                  /* vertically center */
+                  top: 100%;
+                  /* the arrow */
+                  border: 10px solid rgb(255, 255, 255);
+                  border-color: rgba(255, 255, 255) transparent transparent transparent;
+                  box-sizing: border-box;
+                }
+              </style>
+              <a class="tooltip-custom">
+                <img src="	https://themezhub.net/resido-live-02/resido/assets/img/p-4.jpg">
+                <div class="tooltip-info">
+                  <strong>Quadruplex à vendre</strong>
+                  <span><strong>5000$</strong></span>
+                  <span>1520 - 1526, Rue Léo-Ayotte, Trois-Rivières</span>
+                </div>
+              </a>
+              <span class="material-icons ico" style="font-size:36px; ">
+                location_on
+              </span>
+            </div>
+            <app-property-map [style.height]="'300px'" [LatitudeCenter]="propertyDetails.latitude"
+              [LongitudeCenter]="propertyDetails.longitude" [PropertiesInfos]="mapInfos">
+            </app-property-map>
           </div>
         </div>
         <app-property-mortgage-calculator [Price]="propertyDetails.price"></app-property-mortgage-calculator>

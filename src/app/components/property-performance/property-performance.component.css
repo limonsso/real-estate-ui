@@ -27,8 +27,13 @@ h3 {
 }
 .prt-title{
   font-weight: 700;
-  font-family: 'Muli', sans-serif;
+  font-family: "Muli", sans-serif;
   color: #140c40;
+}
+
+.prt-vendue{
+  color: #d90b0b;
+  font-weight: 700;
 }
 
 .prt-price{
