@@ -1,8 +1,8 @@
-import {AfterViewInit, Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
-import {MortgageCalculatorService} from "../../services/mortgage-calculator.service";
-import {Observable, of} from "rxjs";
-import {BroadcastService} from "../../services/broadcast.service";
-import {Frequences} from "../../models/Frequences";
+import { AfterViewInit, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { MortgageCalculatorService } from "../../services/mortgage-calculator.service";
+import { Observable, of } from "rxjs";
+import { BroadcastService } from "../../services/broadcast.service";
+import { Frequences } from "../../models/Frequences";
 
 @Component({
   selector: 'app-property-mortgage-calculator',
@@ -17,17 +17,17 @@ export class PropertyMortgageCalculatorComponent implements OnInit, AfterViewIni
   public amortissement: number = 25;
   public interet: number = 4;
   public mise_de_fond: number;
-  public mise_de_fond_percent: number = 0.15;
+  public mise_de_fond_percent: number = 20;
   public montant: Observable<number>;
-  selectedFrequency: number=12;
+  selectedFrequency: number = 12;
   frequencies: Frequences = new Frequences();
 
   constructor(private readonly mortgageCalculatorService: MortgageCalculatorService,
-              private readonly broadcastService: BroadcastService) {
+    private readonly broadcastService: BroadcastService) {
   }
 
   ngOnInit(): void {
-    this.mise_de_fond = this.Price * this.mise_de_fond_percent
+    this.mise_de_fond = this.Price * this.mise_de_fond_percent / 100
     this.hypotheque = this.Price - this.mise_de_fond
     this.calculate()
   }
@@ -37,9 +37,10 @@ export class PropertyMortgageCalculatorComponent implements OnInit, AfterViewIni
       .subscribe(data => {
         this.montant = of(data);
         this.broadcastService.broadcast('property-montant-versement',
-          {montant_versement:data,
-            frequence:this.selectedFrequency
-        })
+          {
+            montant_versement: data,
+            frequence: this.selectedFrequency
+          })
       })
   }
 
@@ -48,8 +49,8 @@ export class PropertyMortgageCalculatorComponent implements OnInit, AfterViewIni
   }
 
   update_mise_de_fond_percent(event) {
-    this.mise_de_fond = event;
-    this.hypotheque = this.Price -this.mise_de_fond
-    this.mise_de_fond_percent = (this.mise_de_fond / this.Price)
+    this.mise_de_fond_percent = event;
+    this.hypotheque = this.Price - this.mise_de_fond
+    this.mise_de_fond = this.Price * this.mise_de_fond_percent / 100
   }
 }

@@ -147,18 +147,19 @@ export class PropertyMapComponent implements OnInit, AfterViewInit {
     };
 
     var domIcon = new H.map.DomIcon(prtyElt,
-      {
-        // the function is called every time marker enters the viewport
-        onAttach: function (clonedElement, domIcon, domMarker) {
-          clonedElement.addEventListener('mouseover', changeOpacity);
-          clonedElement.addEventListener('mouseout', changeOpacityToOne);
-        },
-        // the function is called every time marker leaves the viewport
-        onDetach: function (clonedElement, domIcon, domMarker) {
-          clonedElement.removeEventListener('mouseover', changeOpacity);
-          clonedElement.removeEventListener('mouseout', changeOpacityToOne);
-        }
-      });
+      // {
+      //   // the function is called every time marker enters the viewport
+      //   onAttach: function (clonedElement, domIcon, domMarker) {
+      //     clonedElement.addEventListener('mouseover', changeOpacity);
+      //     clonedElement.addEventListener('mouseout', changeOpacityToOne);
+      //   },
+      //   // the function is called every time marker leaves the viewport
+      //   onDetach: function (clonedElement, domIcon, domMarker) {
+      //     clonedElement.removeEventListener('mouseover', changeOpacity);
+      //     clonedElement.removeEventListener('mouseout', changeOpacityToOne);
+      //   }
+      // }
+    );
 
     // Marker for Chicago Bears home
     var bearsMarker = new H.map.DomMarker(coords, {

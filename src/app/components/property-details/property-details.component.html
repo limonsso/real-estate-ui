@@ -20,8 +20,13 @@
             <h3 class="prt-price-fix">{{propertyDetails.price |
               currency:'CAD':'symbol'}}</h3>
           </div>
-          <span><mat-icon>place</mat-icon>
-            {{propertyDetails.street}}, {{propertyDetails.city}}</span>
+          <span>
+            <mat-icon>place</mat-icon>
+            {{propertyDetails.street}}, {{propertyDetails.city}}
+          </span>
+          <app-property-map [style.height]="'300px'" [LatitudeCenter]="propertyDetails.latitude"
+            [LongitudeCenter]="propertyDetails.longitude" [PropertiesInfos]="mapInfos">
+          </app-property-map>
         </div>
         <div class="prt-block">
           <h4 class="prt-block-title">Description</h4>
@@ -35,7 +40,8 @@
                 <strong>Année : </strong><span>{{propertyDetails.annee}}</span>
               </div>
               <div class="prt-block-item">
-                <strong>Revenu brute potentiel : </strong><span>{{propertyDetails.revenusAnnuelBruts | currency:'CAD':'symbol'}}</span>
+                <strong>Revenu brute potentiel : </strong><span>{{propertyDetails.revenusAnnuelBruts |
+                  currency:'CAD':'symbol'}}</span>
               </div>
               <div class="prt-block-item">
                 <strong>Superficie : </strong><span>{{propertyDetails.superficie}}</span>
@@ -44,7 +50,7 @@
             <div fxLayout="row" fxLayoutGap="25px">
               <div class="prt-block-item">
                 <strong>Unités : </strong> <span *ngFor="let unite of propertyDetails.unites; let last = last">
-                {{unite.nombreUnite}} x {{unite.type}}<span *ngIf="!last">,</span>
+                  {{unite.nombreUnite}} x {{unite.type}}<span *ngIf="!last">,</span>
                 </span>
               </div>
             </div>
@@ -53,7 +59,8 @@
       </div>
       <div fxFlex fxLayout="column" fxLayoutGap="15px">
         <div class="prt-block" fxLayout="row" fxLayoutGap="15px">
-          <a #favoriteBtn class="btn btn-green" (click)="addOrRemoveToFavorites($event)"  fxLayout="row" fxFlexAlign="center center">
+          <a #favoriteBtn class="btn btn-green" (click)="addOrRemoveToFavorites($event)" fxLayout="row"
+            fxFlexAlign="center center">
             <ng-template [ngIf]="isFavoriteProperty() | async" [ngIfElse]="isNotFavorite">
               <mat-icon class="material-icons-outlined favorite-icon">
                 favorite
@@ -64,19 +71,21 @@
                 favorite_outline
               </mat-icon>
             </ng-template>
-            <span> Sauvegarder</span>
           </a>
           <a class="btn btn-orange" href="{{propertyDetails.link}}" fxLayout="row" fxFlexAlign="center center">
             <mat-icon class="material-icons-outlined">
               shortcut
             </mat-icon>
-            <span>Fiche détaillé</span>
+          </a>
+          <a class="btn">
+            <mat-icon (click)="redirectToCalulator()" class="prty-action primary">
+              calculate
+            </mat-icon>
           </a>
         </div>
-          <app-property-mortgage-calculator [Price]="this.propertyDetails.price"></app-property-mortgage-calculator>
+        <app-property-mortgage-calculator [Price]="this.propertyDetails.price"></app-property-mortgage-calculator>
       </div>
     </div>
   </div>
 
 </div>
-

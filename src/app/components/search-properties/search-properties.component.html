@@ -1,15 +1,15 @@
 <div class="search-container" fxLayout="column" fxFlexFill>
   <div class="search-criteria" fxLayout="row" fxLayoutAlign="center center">
     <div class="full-search" fxFlex.gt-sm="55" fxLayout.gt-sm="row" fxFlex.lt-sm="95" fxLayout.lt-sm="column"
-      fxLayoutAlign="center center">
-      <div>
+      fxLayoutAlign="center center" fxLayoutGap="15px">
+      <!-- <div>
         <div class="search-critere" fxLayout="row" fxLayoutAlign="center center">
           <input type="checkbox" />
           <label class="label">Vendues inclues</label>
         </div>
-      </div>
+      </div>-->
       <ng-select #ngselectlocalities (change)="selectLocalities()" [(ngModel)]="localitySelected"
-        [closeOnSelect]="false" [clearSearchOnAdd]="false" [multiple]="true" fxFlex.gt-sm="70"
+        [closeOnSelect]="false" [clearSearchOnAdd]="false" [multiple]="true" fxFlex.gt-sm="80"
         placeholder="Rechercher par ville">
         <ng-option *ngFor="let locality of localities$ | async" [value]="locality">{{ locality }}</ng-option>
       </ng-select>
