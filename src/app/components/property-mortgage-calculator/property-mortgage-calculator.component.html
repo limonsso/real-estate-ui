@@ -22,6 +22,13 @@
             [ngModel]="hypotheque" placeholder="Mise de fond" fxFlex="90">
         </div>
       </div>
+      <div *ngIf="WithMontantOffre" fxLayout="column" fxLayoutGap="5px">
+        <label>Montant de l'offre</label>
+        <div class="input-with-icon" fxLayout="row">
+          <input currencyMask [options]="{ suffix: ' $' }" type="text" class="form-control" [ngModel]="montant_offre"
+            placeholder="Mise de fond" fxFlex="90" (ngModelChange)="update_montant_offre($event)">
+        </div>
+      </div>
       <div fxLayout="column" fxLayoutGap="5px">
         <label>Période d'amortissement</label>
         <div class="input-with-icon" fxLayout="row">
@@ -33,7 +40,7 @@
         <label>Taux d'intérêt</label>
         <div class="input-with-icon" fxLayout="row">
           <input currencyMask [options]="{ suffix: ' %' }" type="text" class="form-control" [ngModel]="interet"
-            fxFlex="90" placeholder="Taux d'intérêt">
+            fxFlex="90" placeholder="Taux d'intérêt" (ngModelChange)="update_interet($event)">
         </div>
       </div>
       <div fxLayout="column" fxLayoutGap="5px">

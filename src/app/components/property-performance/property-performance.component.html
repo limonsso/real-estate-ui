@@ -69,18 +69,12 @@
                 <strong>{{total_depenses | currency:'CAD':'symbol'}}</strong>
               </div>
             </div>
-
-            <!--            <div class="widget-block-item" fxLayout="row" fxLayoutAlign="space-between center">
-                          <span><b>M</b>ultiplicateur de <b>R</b>evenue <b>B</b>rut</span> <strong>10 $</strong>
-                        </div>
-                        <div class="widget-block-item" fxLayout="row" fxLayoutAlign="space-between center">
-                          <span><b>M</b>ultiplicateur de <b>R</b>evenue <b>N</b>et</span> <strong>10 $</strong>
-                        </div>-->
             <app-property-ratio-performance [Price]="propertyDetails.price"
               [RevenuPotentielAnnuel]="propertyDetails.revenusAnnuelBruts"></app-property-ratio-performance>
           </div>
         </div>
-        <app-property-mortgage-calculator [Price]="propertyDetails.price"></app-property-mortgage-calculator>
+        <app-property-mortgage-calculator [Price]="propertyDetails.price" [WithMontantOffre]="true">
+        </app-property-mortgage-calculator>
       </div>
     </div>
   </div>

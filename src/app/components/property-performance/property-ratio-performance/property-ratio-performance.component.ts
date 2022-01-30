@@ -1,5 +1,5 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
-import {ChartType, ChartOptions,} from 'chart.js';
+import { AfterViewInit, Component, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChartType, ChartOptions, } from 'chart.js';
 import {
   SingleDataSet,
   Label,
@@ -8,11 +8,11 @@ import {
   BaseChartDirective
 } from 'ng2-charts';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import {BroadcastService} from "../../../services/broadcast.service";
-import {Observable, of} from "rxjs";
-import {MortgageCalculatorService} from "../../../services/mortgage-calculator.service";
-import {formatCurrency} from "@angular/common";
-import {Frequences} from "../../../models/Frequences";
+import { BroadcastService } from "../../../services/broadcast.service";
+import { Observable, of } from "rxjs";
+import { MortgageCalculatorService } from "../../../services/mortgage-calculator.service";
+import { formatCurrency } from "@angular/common";
+import { Frequences } from "../../../models/Frequences";
 
 @Component({
   selector: 'app-property-ratio-performance',
@@ -43,8 +43,8 @@ export class PropertyRatioPerformanceComponent implements OnInit, AfterViewInit 
   public MRN: Observable<number> = of(0);
   public MRN_date: Observable<any> = of(0);
   public frequencies: Frequences = new Frequences();
-  public montant_versement:number=0;
-  public versement_frequency:number=0
+  public montant_versement: number = 0;
+  public versement_frequency: number = 0
   selectedFrequency: number = 1;
 
 
@@ -58,22 +58,25 @@ export class PropertyRatioPerformanceComponent implements OnInit, AfterViewInit 
 
   ngAfterViewInit(): void {
     this.broadcastService.subscribe('property-montant-versement', data => {
+      this.montant_versement = data.montant_versement;
+      this.versement_frequency = data.frequence;
       if (!this.pieChartLabels.includes('hypothèque')) {
         this.pieChartLabels.push('hypothèque')
-        this.montant_versement = data.montant_versement;
-        this.versement_frequency = data.frequence;
-        this.pieChartData.push(+((data.montant_versement * data.frequence)/this.selectedFrequency).toFixed(2));
+        this.pieChartData.push(+((data.montant_versement * data.frequence) / this.selectedFrequency).toFixed(2));
       } else {
-        this.pieChartData[2] = +((data.montant_versement * data.frequence)/this.selectedFrequency).toFixed(2);
+        this.pieChartData[this.pieChartData.length - 1] = +((data.montant_versement * data.frequence) / this.selectedFrequency).toFixed(2);
       }
-      this.pieChartData[0] = +((+this.pieChartData[0].valueOf() - data.montant_versement * data.frequence)/this.selectedFrequency).toFixed(2);
+      this.pieChartData[0] = +((this.RevenuPotentielAnnuel - this.DepensesConnues - (this.montant_versement * this.versement_frequency)) / this.selectedFrequency).toFixed(2);
+      this.chart.chart.update()
+      this.Price = data.montant_pret;
+      this.initialize_ratio_evaluation_multilo();
     })
     this.broadcastService.subscribe('property-ratio-performance', data => {
       this.DepensesConnues = data.depenses;
       this.RNO = of(this.RevenuPotentielAnnuel - data.depenses);
       this.initialize_ratio_evaluation_multilo();
-      this.pieChartData[0] = (this.RevenuPotentielAnnuel - data.depenses - (this.montant_versement*this.versement_frequency))/this.selectedFrequency;
-      this.pieChartData[1] = (data.depenses)/this.selectedFrequency;
+      this.pieChartData[0] = (this.RevenuPotentielAnnuel - data.depenses - (this.montant_versement * this.versement_frequency)) / this.selectedFrequency;
+      this.pieChartData[1] = (data.depenses) / this.selectedFrequency;
       this.chart.chart.update()
     })
   }
@@ -117,9 +120,9 @@ export class PropertyRatioPerformanceComponent implements OnInit, AfterViewInit 
   };
 
   selectChangeFrequency() {
-    this.pieChartData[0] = (this.RevenuPotentielAnnuel - this.DepensesConnues - (this.montant_versement*this.versement_frequency))/this.selectedFrequency;
-    this.pieChartData[1] = (this.DepensesConnues)/this.selectedFrequency;
-    this.pieChartData[2] = (this.montant_versement * this.versement_frequency)/this.selectedFrequency;
+    this.pieChartData[0] = (this.RevenuPotentielAnnuel - this.DepensesConnues - (this.montant_versement * this.versement_frequency)) / this.selectedFrequency;
+    this.pieChartData[1] = (this.DepensesConnues) / this.selectedFrequency;
+    this.pieChartData[2] = (this.montant_versement * this.versement_frequency) / this.selectedFrequency;
     this.chart.chart.update()
   }
 }

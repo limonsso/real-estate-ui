@@ -12,12 +12,14 @@ import { Frequences } from "../../models/Frequences";
 })
 export class PropertyMortgageCalculatorComponent implements OnInit, AfterViewInit {
   @Input() Price: number;
+  @Input() WithMontantOffre: boolean = false;
 
   public hypotheque: number;
   public amortissement: number = 25;
   public interet: number = 4;
   public mise_de_fond: number;
   public mise_de_fond_percent: number = 20;
+  public montant_offre: number;
   public montant: Observable<number>;
   selectedFrequency: number = 12;
   frequencies: Frequences = new Frequences();
@@ -29,6 +31,7 @@ export class PropertyMortgageCalculatorComponent implements OnInit, AfterViewIni
   ngOnInit(): void {
     this.mise_de_fond = this.Price * this.mise_de_fond_percent / 100
     this.hypotheque = this.Price - this.mise_de_fond
+    this.montant_offre = this.Price;
     this.calculate()
   }
 
@@ -38,6 +41,7 @@ export class PropertyMortgageCalculatorComponent implements OnInit, AfterViewIni
         this.montant = of(data);
         this.broadcastService.broadcast('property-montant-versement',
           {
+            montant_pret: this.montant_offre,
             montant_versement: data,
             frequence: this.selectedFrequency
           })
@@ -50,7 +54,16 @@ export class PropertyMortgageCalculatorComponent implements OnInit, AfterViewIni
 
   update_mise_de_fond_percent(event) {
     this.mise_de_fond_percent = event;
-    this.hypotheque = this.Price - this.mise_de_fond
-    this.mise_de_fond = this.Price * this.mise_de_fond_percent / 100
+    this.mise_de_fond = this.montant_offre * this.mise_de_fond_percent / 100
+    this.hypotheque = this.montant_offre - this.mise_de_fond
+  }
+
+  update_montant_offre(event) {
+    this.montant_offre = event;
+    this.update_mise_de_fond_percent(this.mise_de_fond_percent)
+  }
+
+  update_interet(event) {
+    this.interet = event;
   }
 }
