@@ -1,17 +1,43 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>RealEstateUi</title>
-  <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">  <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.0/mapsjs-ui.css?dp-version=1533195059" />
-  <script type="module" src="https://js.api.here.com/v3/3.1/mapsjs.bundle.js"></script>
-</head>
-<body class="mat-typography">
-  <app-root></app-root>
-</body>
+  <head>
+    <meta charset="utf-8">
+    <title>Housekey</title>
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyAO7Mg2Cs1qzo_3jkKkZAKY6jtwIlm41-I"></script>
+  </head>
+  <body>
+    <app-root></app-root>
+    <div class="spinner-wrapper" id="preloader">
+      <div class="spinner-container">
+        <div class="spinner-outer">
+          <div class="spinner">
+            <div class="left mask">
+              <div class="plane"></div>
+            </div>
+            <div class="top mask">
+              <div class="plane"></div>
+            </div>
+            <div class="right mask">
+              <div class="plane"></div>
+            </div>
+            <div class="triangle">
+              <div class="triangle-plane"></div>
+            </div>
+            <div class="top-left mask">
+              <div class="plane"></div>
+            </div>
+            <div class="top-right mask">
+              <div class="plane"></div>
+            </div>
+          </div>
+          <p class="spinner-text">HouseKey</p>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

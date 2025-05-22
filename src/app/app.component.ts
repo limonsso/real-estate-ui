@@ -1,29 +1,41 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
-import {Store} from "@ngrx/store";
-import {GetLocalities} from "./store/actions/localities-store.actions";
-import {LocalitiesState} from "./store/reducers/localities-strore.reducer";
-import {BroadcastService} from "./services/broadcast.service";
+import { NgClass } from '@angular/common';
+import { Component } from '@angular/core';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { NgProgressbar } from 'ngx-progressbar';
+import { NgProgressHttp } from 'ngx-progressbar/http';
+import { DomHandlerService } from '@services/dom-handler.service';
+import { Settings, SettingsService } from '@services/settings.service';
 
 @Component({
   selector: 'app-root',
+  imports: [
+    NgClass,
+    RouterOutlet,
+    TranslateModule,
+    NgProgressbar,
+    NgProgressHttp
+  ],
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrl: './app.component.scss'
 })
-export class AppComponent implements OnInit {
-  title = 'real-estate-ui';
-
-  constructor(
-    private  readonly  broadcastService: BroadcastService,
-    private readonly route: Router,
-        private store: Store<LocalitiesState>) {
-    this.store.dispatch(GetLocalities());
+export class AppComponent {
+  public settings: Settings;
+  constructor(public settingsService: SettingsService,
+    public router: Router,
+    public translate: TranslateService,
+    private domHandlerService: DomHandlerService) {
+    this.settings = this.settingsService.settings;
+    translate.addLangs(['en', 'de', 'fr', 'ru', 'tr']);
+    translate.setDefaultLang('en');
+    translate.use('en');
   }
 
-  ngOnInit(): void {
-
-    this.broadcastService.subscribe('user-is-connected',()=>{
-      window.location.reload()
-    })
+  ngAfterViewInit() {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.domHandlerService.winScroll(0, 0);
+      }
+    });
   }
 }

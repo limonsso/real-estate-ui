@@ -1,6 +1,8 @@
-<div class="app-container" fxLayout="column">
-  <app-header></app-header>
-  <div class="app-content" fxLayout="column" fxFlex>
-    <router-outlet></router-outlet>
-  </div>
+<div id="app" class="app" 
+    [dir]="(settings.rtl) ? 'rtl' : 'ltr'"
+    [ngClass]="[settings.theme, 'toolbar-'+settings.toolbar]"
+    [class.main-toolbar-fixed]="settings.mainToolbarFixed">
+  <router-outlet />
+  <ng-progress #progressBar="ngProgress" ngProgressHttp/>
+  <!-- <ng-progress [spinner]="false" [meteor]="false" color="#e91e63"></ng-progress> -->
 </div>
