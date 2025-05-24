@@ -27,35 +27,36 @@ import { FeaturedPropertiesComponent } from '@shared-components/featured-propert
 import { OurAgentsComponent } from '@shared-components/our-agents/our-agents.component';
 import { ClientsComponent } from '@shared-components/clients/clients.component';
 import { GetInTouchComponent } from '@shared-components/get-in-touch/get-in-touch.component';
+import { ApiService } from "@services/api.service";
 
 @Component({
-    selector: 'app-home',
-    imports: [
-        HeaderImageComponent,
-        HeaderCarouselComponent,
-        HeaderMapComponent,
-        HeaderVideoComponent,
-        MatCardModule,
-        MatChipsModule,
-        PropertiesSearchComponent,
-        PropertiesSearchResultsFiltersComponent,
-        PropertiesToolbarComponent,
-        LoadMoreComponent,
-        PropertyItemComponent,
-        NgClass,
-        FlexLayoutModule,
-        MatProgressSpinnerModule,
-        MissionComponent,
-        OurServicesComponent,
-        TestimonialsComponent,
-        HotOfferTodayComponent,
-        FeaturedPropertiesComponent,
-        OurAgentsComponent,
-        ClientsComponent,
-        GetInTouchComponent
-    ],
-    templateUrl: './home.component.html',
-    styleUrl: './home.component.scss'
+  selector: 'app-home',
+  imports: [
+    HeaderImageComponent,
+    HeaderCarouselComponent,
+    HeaderMapComponent,
+    HeaderVideoComponent,
+    MatCardModule,
+    MatChipsModule,
+    PropertiesSearchComponent,
+    PropertiesSearchResultsFiltersComponent,
+    PropertiesToolbarComponent,
+    LoadMoreComponent,
+    PropertyItemComponent,
+    NgClass,
+    FlexLayoutModule,
+    MatProgressSpinnerModule,
+    MissionComponent,
+    OurServicesComponent,
+    TestimonialsComponent,
+    HotOfferTodayComponent,
+    FeaturedPropertiesComponent,
+    OurAgentsComponent,
+    ClientsComponent,
+    GetInTouchComponent
+  ],
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.scss'
 })
 export class HomeComponent implements OnInit {
   watcher: Subscription;
@@ -74,7 +75,7 @@ export class HomeComponent implements OnInit {
   public locations: Location[];
   public settings: Settings;
 
-  constructor(public settingsService: SettingsService, public appService: AppService, public mediaObserver: MediaObserver) {
+  constructor(public settingsService: SettingsService, public appService: AppService, public mediaObserver: MediaObserver, public apiService: ApiService) {
     this.settings = this.settingsService.settings;
 
     this.watcher = mediaObserver.asObservable()
@@ -130,12 +131,15 @@ export class HomeComponent implements OnInit {
 
   public getProperties() {
     //console.log('get properties by : ', this.searchFields);  
-    this.appService.getProperties().subscribe(data => {
+    this.apiService.getProperties({ pageNumber: 1, pageSize: 10 }).subscribe(response => {
+      const properties = response.items;
+      const totalItems = response.totalCount;
+      const totalPages = response.totalPages;
       if (this.properties && this.properties.length > 0) {
         this.settings.loadMore.page++;
         this.pagination.page = this.settings.loadMore.page;
       }
-      let result = this.filterData(data);
+      let result = this.filterData(properties);
       if (result.data.length == 0) {
         this.properties.length = 0;
         this.pagination = new Pagination(1, this.count, null, 2, 0, 0);

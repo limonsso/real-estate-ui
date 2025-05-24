@@ -23,28 +23,28 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
 import { debounceTime, distinctUntilChanged, filter, map, Subscription } from 'rxjs';
 
 @Component({
-    selector: 'app-properties',
-    imports: [
-        HeaderImageComponent,
-        MatSidenavModule,
-        NgScrollbarModule,
-        MatCardModule,
-        MatIconModule,
-        PropertiesSearchComponent,
-        PropertiesToolbarComponent,
-        PropertiesSearchResultsFiltersComponent,
-        PropertyItemComponent,
-        MatProgressSpinnerModule,
-        MatPaginatorModule,
-        MatChipsModule,
-        NgClass,
-        FlexLayoutModule,
-        ClientsComponent,
-        GetInTouchComponent,
-        FlexLayoutModule,
-        MatButtonModule
-    ],
-    templateUrl: './properties.component.html'
+  selector: 'app-properties',
+  imports: [
+    HeaderImageComponent,
+    MatSidenavModule,
+    NgScrollbarModule,
+    MatCardModule,
+    MatIconModule,
+    PropertiesSearchComponent,
+    PropertiesToolbarComponent,
+    PropertiesSearchResultsFiltersComponent,
+    PropertyItemComponent,
+    MatProgressSpinnerModule,
+    MatPaginatorModule,
+    MatChipsModule,
+    NgClass,
+    FlexLayoutModule,
+    ClientsComponent,
+    GetInTouchComponent,
+    FlexLayoutModule,
+    MatButtonModule
+  ],
+  templateUrl: './properties.component.html'
 })
 export class PropertiesComponent implements OnInit {
   @ViewChild('sidenav') sidenav: any;
@@ -61,11 +61,11 @@ export class PropertiesComponent implements OnInit {
   public message: string | null;
   public watcher: Subscription;
   public settings: Settings
-  
+
   constructor(public settingsService: SettingsService,
-              public appService: AppService,
-              public mediaObserver: MediaObserver,
-              private domHandlerService: DomHandlerService) {
+    public appService: AppService,
+    public mediaObserver: MediaObserver,
+    private domHandlerService: DomHandlerService) {
     this.settings = this.settingsService.settings;
     this.watcher = mediaObserver.asObservable()
       .pipe(filter((changes: MediaChange[]) => changes.length > 0), map((changes: MediaChange[]) => changes[0]))

@@ -4,5 +4,6 @@
 
 export const environment = {
   production: false,
-  url: ''
+  apiUrl: '/api', // Utilisation du chemin relatif pour le proxy
+  url: '' // URL de base pour les autres ressources
 };

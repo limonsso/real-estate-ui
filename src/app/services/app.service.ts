@@ -17,9 +17,9 @@ import { Client } from '../common/interfaces/client';
 
 export class Data {
   constructor(public properties: Property[],
-              public compareList: Property[],
-              public favorites: Property[],
-              public locations: Location[]) { }
+    public compareList: Property[],
+    public favorites: Property[],
+    public locations: Location[]) { }
 }
 
 @Injectable({
@@ -37,12 +37,12 @@ export class AppService {
   public apiKey = 'AIzaSyAO7Mg2Cs1qzo_3jkKkZAKY6jtwIlm41-I';
 
   constructor(public http: HttpClient,
-              private bottomSheet: MatBottomSheet,
-              private snackBar: MatSnackBar,
-              public settingsService: SettingsService,
-              public dialog: MatDialog,
-              public translateService: TranslateService,
-              private domHandlerService: DomHandlerService) { }
+    private bottomSheet: MatBottomSheet,
+    private snackBar: MatSnackBar,
+    public settingsService: SettingsService,
+    public dialog: MatDialog,
+    public translateService: TranslateService,
+    private domHandlerService: DomHandlerService) { }
 
   public getProperties(): Observable<Property[]> {
     return this.http.get<Property[]>(this.url + 'properties.json');
@@ -641,7 +641,7 @@ export class AppService {
         image: 'images/agents/a-5.jpg'
       }
     ];
-  } 
+  }
 
   public getClients(): Client[] {
     return [
@@ -659,6 +659,6 @@ export class AppService {
       { name: 'special', image: 'images/clients/special.png' },
       { name: 'bravo', image: 'images/clients/bravo.png' }
     ];
-  } 
+  }
 
 }

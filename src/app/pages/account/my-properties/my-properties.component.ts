@@ -32,10 +32,10 @@ export class MyPropertiesComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(public appService: AppService) { }
+  constructor(public appService: AppService, public  apiService: AppService) { }
 
   ngOnInit() {
-    this.appService.getProperties().subscribe(res => {
+    this.apiService.getProperties().subscribe(res => {
       this.initDataSource(res);
     });
   }

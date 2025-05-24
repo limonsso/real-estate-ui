@@ -47,10 +47,6 @@ export const routes: Routes = [
                 loadChildren: () => import('./properties/properties.routes').then(p => p.routes)
             },
             {
-                path: 'properties2',
-                loadComponent: () => import('./properties2/properties2.component').then(c => c.Properties2Component)
-            },
-            {
                 path: 'terms-conditions',
                 loadComponent: () => import('./terms-conditions/terms-conditions.component').then(c => c.TermsConditionsComponent)
             },
