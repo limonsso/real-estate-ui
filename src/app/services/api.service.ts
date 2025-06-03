@@ -9,6 +9,7 @@ import { Client } from '../common/interfaces/client';
 import { PropertyResponse } from '../common/interfaces/property.interface';
 import { PaginationParams, PaginatedResponse } from '../common/interfaces/pagination.interface';
 import { PropertySearchModel } from '../common/interfaces/property-search.interface';
+import { PropertyType } from '../common/interfaces/property-type.interface';
 
 @Injectable({
     providedIn: 'root'
@@ -97,12 +98,8 @@ export class ApiService {
     }
 
     // Méthodes pour les données statiques
-    getPropertyTypes() {
-        return [
-            { id: 1, name: 'Office' },
-            { id: 2, name: 'House' },
-            { id: 3, name: 'Apartment' }
-        ];
+    getPropertyTypes(): Observable<PropertyType[]> {
+        return this.get<PropertyType[]>('/PropertyTypes');
     }
 
     getPropertyStatuses() {
@@ -211,5 +208,53 @@ export class ApiService {
             data.lastUpdate,
             data.views
         );
+    }
+
+    // Méthodes pour les données statiques
+    getStaticPropertyTypes(): PropertyType[] {
+        return [
+            {
+                id: 'office',
+                category: 'Commercial',
+                description: 'Espace de bureau commercial',
+                features: ['Espace de travail', 'Salle de conférence', 'Parking'],
+                commonUses: ['Bureau', 'Consultation'],
+                typicalCharacteristics: {
+                    units: 1,
+                    minBedroomsPerUnit: 0,
+                    minBathroomsPerUnit: 1,
+                    minLandSize: '1000'
+                },
+                displayName: 'Bureau à vendre'
+            },
+            {
+                id: 'house',
+                category: 'Résidentiel',
+                description: 'Maison unifamiliale',
+                features: ['Jardin', 'Garage', 'Sous-sol'],
+                commonUses: ['Résidence principale', 'Résidence secondaire'],
+                typicalCharacteristics: {
+                    units: 1,
+                    minBedroomsPerUnit: 2,
+                    minBathroomsPerUnit: 1,
+                    minLandSize: '5000'
+                },
+                displayName: 'Maison à vendre'
+            },
+            {
+                id: 'apartment',
+                category: 'Résidentiel',
+                description: 'Appartement en copropriété',
+                features: ['Ascenseur', 'Sécurité', 'Stationnement'],
+                commonUses: ['Résidence principale', 'Investissement'],
+                typicalCharacteristics: {
+                    units: 1,
+                    minBedroomsPerUnit: 1,
+                    minBathroomsPerUnit: 1,
+                    minLandSize: '800'
+                },
+                displayName: 'Appartement à vendre'
+            }
+        ];
     }
 } 
