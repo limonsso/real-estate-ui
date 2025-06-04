@@ -28,6 +28,7 @@ import { OurAgentsComponent } from '@shared-components/our-agents/our-agents.com
 import { ClientsComponent } from '@shared-components/clients/clients.component';
 import { GetInTouchComponent } from '@shared-components/get-in-touch/get-in-touch.component';
 import { ApiService } from "@services/api.service";
+import { PropertySearchModel } from '../../common/interfaces/property-search.interface';
 
 @Component({
   selector: 'app-home',
@@ -130,15 +131,14 @@ export class HomeComponent implements OnInit {
   }
 
   public getProperties() {
-    //console.log('get properties by : ', this.searchFields);  
-    this.apiService.getProperties({ pageNumber: 1, pageSize: 10 }).subscribe(response => {
+    this.apiService.getProperties({
+      pageNumber: this.settings.loadMore.page,
+      pageSize: this.count
+    }).subscribe(response => {
       const properties = response.items;
       const totalItems = response.totalCount;
       const totalPages = response.totalPages;
-      if (this.properties && this.properties.length > 0) {
-        this.settings.loadMore.page++;
-        this.pagination.page = this.settings.loadMore.page;
-      }
+
       let result = this.filterData(properties);
       if (result.data.length == 0) {
         this.properties.length = 0;
@@ -146,21 +146,30 @@ export class HomeComponent implements OnInit {
         this.message = 'No Results Found';
         return false;
       }
+
       if (this.properties && this.properties.length > 0) {
         this.properties = this.properties.concat(result.data);
-      }
-      else {
+      } else {
         this.properties = result.data;
       }
-      this.pagination = result.pagination;
+
+      this.pagination = new Pagination(
+        this.settings.loadMore.page,
+        this.count,
+        null,
+        totalPages,
+        totalItems,
+        totalPages
+      );
+
       this.message = null;
 
-      if (this.properties.length == this.pagination.total) {
+      if (this.properties.length >= totalItems) {
         this.settings.loadMore.complete = true;
         this.settings.loadMore.result = this.properties.length;
-      }
-      else {
+      } else {
         this.settings.loadMore.complete = false;
+        this.settings.loadMore.page++;
       }
 
       if (this.settings.header == 'map') {
@@ -172,7 +181,7 @@ export class HomeComponent implements OnInit {
         this.locations = [...this.locations];
       }
       return true;
-    })
+    });
   }
 
   public resetLoadMore() {
@@ -186,26 +195,21 @@ export class HomeComponent implements OnInit {
     return this.appService.filterData(data, this.searchFields, this.sort, this.pagination.page, this.pagination.perPage);
   }
 
-  public searchClicked() {
+  public searchClicked(searchModel: PropertySearchModel) {
+    this.searchFields = searchModel;
     this.properties.length = 0;
     this.getProperties();
   }
-  public searchChanged(event: any) {
-    event.valueChanges.subscribe(() => {
-      this.resetLoadMore();
-      this.searchFields = event.value;
-      setTimeout(() => {
-        this.removedSearchField = null;
-      });
-      if (!this.settings.searchOnBtnClick) {
-        this.properties.length = 0;
-      }
+  public searchChanged(searchModel: PropertySearchModel) {
+    this.resetLoadMore();
+    this.searchFields = searchModel;
+    setTimeout(() => {
+      this.removedSearchField = null;
     });
-    event.valueChanges.pipe(debounceTime(500), distinctUntilChanged()).subscribe(() => {
-      if (!this.settings.searchOnBtnClick) {
-        this.getProperties();
-      }
-    });
+    if (!this.settings.searchOnBtnClick) {
+      this.properties.length = 0;
+      this.getProperties();
+    }
   }
   public removeSearchField(field: any) {
     this.message = null;

@@ -1,6 +1,6 @@
 import { NgClass } from '@angular/common';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { FloatLabelType, MatFormFieldAppearance } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -15,6 +15,8 @@ import { PipesModule } from '../../theme/pipes/pipes.module';
 import { PropertyType } from '../../common/interfaces/property-type.interface';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CommonModule } from '@angular/common';
+import { PropertySearchModel } from '../../common/interfaces/property-search.interface';
+import { PropertySearchMapper } from '../../common/mappers/property-search.mapper';
 
 @Component({
   selector: 'app-properties-search',
@@ -32,16 +34,15 @@ import { CommonModule } from '@angular/common';
     MatProgressSpinnerModule,
     CommonModule
   ],
-  templateUrl: './properties-search.component.html',
-  styleUrls: ['./properties-search.component.scss']
+  templateUrl: './properties-search.component.html'
 })
 export class PropertiesSearchComponent implements OnInit {
   @Input() variant: number = 1;
   @Input() vertical: boolean = false;
   @Input() searchOnBtnClick: boolean = false;
   @Input() removedSearchField: string;
-  @Output() searchChange = new EventEmitter<FormGroup>();
-  @Output() searchClick = new EventEmitter<FormGroup>();
+  @Output() onSearchChange = new EventEmitter<PropertySearchModel>();
+  @Output() onSearchClick = new EventEmitter<PropertySearchModel>();
   public showMore: boolean = false;
   public propertyTypes: PropertyType[] = [];
   public propertyStatuses: any[] = [];
@@ -61,7 +62,7 @@ export class PropertiesSearchComponent implements OnInit {
     private apiService: ApiService,
     public fb: FormBuilder
   ) {
-    this.initForm();
+    this.searchForm = this.initForm();
   }
 
   ngOnInit() {
@@ -74,6 +75,7 @@ export class PropertiesSearchComponent implements OnInit {
     this.neighborhoods = this.appService.getNeighborhoods();
     this.streets = this.appService.getStreets();
     this.features = this.appService.getFeatures();
+    this.initSearchChange();
   }
 
   private loadPropertyTypes() {
@@ -91,22 +93,46 @@ export class PropertiesSearchComponent implements OnInit {
     });
   }
 
-  private initForm() {
-    this.searchForm = this.fb.group({
+  private initForm(): FormGroup {
+    return this.fb.group({
       propertyType: [''],
-      status: [''],
-      priceMin: [''],
-      priceMax: [''],
+      propertyStatus: [''],
+      price: this.fb.group({
+        from: [''],
+        to: ['']
+      }),
       city: [''],
       zipCode: [''],
       neighborhood: [''],
       street: [''],
-      bedrooms: [''],
-      bathrooms: [''],
-      garages: [''],
-      area: [''],
-      yearBuilt: [''],
-      features: [[]]
+      bedrooms: this.fb.group({
+        from: [''],
+        to: ['']
+      }),
+      bathrooms: this.fb.group({
+        from: [''],
+        to: ['']
+      }),
+      garages: this.fb.group({
+        from: [''],
+        to: ['']
+      }),
+      area: this.fb.group({
+        from: [''],
+        to: ['']
+      }),
+      yearBuilt: this.fb.group({
+        from: [''],
+        to: ['']
+      }),
+      features: this.fb.array(
+        this.features.map(feature =>
+          this.fb.group({
+            name: [feature.name],
+            selected: [feature.selected]
+          })
+        )
+      )
     });
   }
 
@@ -128,16 +154,23 @@ export class PropertiesSearchComponent implements OnInit {
 
   public resetForm() {
     this.searchForm.reset();
-    this.onSearchChange();
+    this.initSearchChange();
   }
 
-  public onSearchChange() {
-    this.searchChange.emit(this.searchForm);
+  private initSearchChange() {
+    this.searchForm.valueChanges.subscribe(() => {
+      const searchModel = PropertySearchMapper.mapFormToSearchModel(this.searchForm);
+      this.onSearchChange.emit(searchModel);
+    });
   }
 
-  public onSearchClick() {
-    this.searchClick.emit(this.searchForm);
+  public search() {
+    const searchModel = PropertySearchMapper.mapFormToSearchModel(this.searchForm);
+    this.onSearchClick.emit(searchModel);
   }
+
+  // Alias pour la compatibilité avec le template
+  get reset() { return this.resetForm; }
 
   public onSelectCity() {
     this.searchForm.controls['neighborhood'].setValue(null, { emitEvent: false });
@@ -154,10 +187,7 @@ export class PropertiesSearchComponent implements OnInit {
     return (this.variant === 1) ? 'always' : 'auto';
   }
 
-  search() {
-    this.onSearchClick();
+  get featuresArray(): FormArray {
+    return this.searchForm.get('features') as FormArray;
   }
-
-  // Alias pour la compatibilité avec le template
-  get reset() { return this.resetForm; }
 }
